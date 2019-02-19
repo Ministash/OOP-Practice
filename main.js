@@ -1,6 +1,10 @@
 //Here we are selecting our Canvas element within the DOM
 let canvas = document.querySelector('canvas');
 
+
+let changingNum = document.getElementById('myRange');
+let changingBallNum = document.getElementById('myRange2');
+
 //Next we are telling our script that this element within the DOM is where we will be paiting our 2D objects
 let ctx = canvas.getContext('2d');
 
@@ -74,6 +78,21 @@ Ball.prototype.update = function() {
     this.y += this.velY;
   }
 
+  //function that changes the amound the ball drags
+  function changeDrag(){
+    //Grabbing the value of the slider on startup
+    let newUpdatedValue = '.' + changingNum.value;
+
+    //Changing the value of the variable when some type of input happens
+    changingNum.oninput = function() {
+      newUpdatedValue = '.' + this.value;
+    }
+
+    ctx.fillStyle = 'rgba(0, 0, 0,' + newUpdatedValue + ')';
+    ctx.fillRect(0, 0, width, height);
+
+  }
+
 
 
 
@@ -82,13 +101,20 @@ Ball.prototype.update = function() {
 
 
 
-
 //This is our animation loop function
   function loop() {
-    ctx.fillStyle = 'rgba(0, 0, 0, .25)';
-    ctx.fillRect(0, 0, width, height);
-  
-    while (balls.length < 25) {
+    
+    //Allowing the user to change the amount of drag that is created
+    changeDrag();
+
+    let ballAmount = changingBallNum.value;
+
+    changingBallNum.oninput = function() {
+      ballAmount = this.value;
+    }
+
+
+    while (balls.length < ballAmount) {
       var size = random(10,20);
       var ball = new Ball(
         // ball position always drawn at least one ball width
@@ -111,4 +137,6 @@ Ball.prototype.update = function() {
     requestAnimationFrame(loop);
   }
 
+
   loop();
+
