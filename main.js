@@ -114,7 +114,7 @@ Ball.prototype.update = function() {
     }
 
 
-    while (balls.length < ballAmount) {
+    if (balls.length < ballAmount) {
       var size = random(10,20);
       var ball = new Ball(
         // ball position always drawn at least one ball width
@@ -127,6 +127,8 @@ Ball.prototype.update = function() {
         size
       );
       balls.push(ball);
+    }else if(balls.length > ballAmount){
+      balls.splice(0);
     }
   
     for (var i = 0; i < balls.length; i++) {
